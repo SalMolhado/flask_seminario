@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Mensagens</h1>
+    <form action="{{ url_for('dashboard') }}" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.content.label }}<br>
+            {{ form.content(size=32) }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+    <hr>
+    <ul>
+    {% for message in messages %}
+        <li>
+            {{ message.content }}
+            <form action="{{ url_for('update', message_id=message.id) }}" method="get" style="display:inline;">
+                <input type="submit" value="Atualizar">
+            </form>
+            <form action="{{ url_for('delete', message_id=message.id) }}" method="post" style="display:inline;">
+                {{ form.hidden_tag() }}
+                <input type="submit" value="Deletar">
+            </form>
+        </li>
+    {% endfor %}
+    </ul>
+    <a href="/logout">Logout</a>
+    <button onclick="location.href='/cause_error'">Cause Error</button>
+{% endblock %}
